@@ -52,6 +52,20 @@ The class's member functions can be divided by purpose:
 1. Construct a service class and add it to the BLE stack.
 1. Push notifications when the characteristic's value changes.
 
+## BLE Unit Testing
+
+You may find it useful to add unit tests to your application or library. Mbed OS uses GoogleTest to provide a helpful framework of stubs and mocks to help you quickly write your unit tests.
+
+Please refer to the main [Unit Testing](../debug-test/unit-testing.html) page for details on how to use unit testing in Mbed OS.
+
+The BLE feature can be tested through a fake BLE instance which provides mocks. These will allow you to set expectations for your application's use of BLE APIs.
+
+Compiling the BLE.cpp from the [UNITTESTS/stubs](https://github.com/ARMmbed/mbed-os/tree/master/UNITTESTS/stubs) directory instead of the real BLE.cpp will allow you to create a BLE instance that uses mocks instead of real BLE modules. Including the special ble_mocks.h header you can gain access to these individual mocks.
+
+To setup your unit tests you can use the [BLE unit test template](https://github.com/ARMMbed/mbed-os/tree/ble-unittest/connectivity/FEATURE_BLE/tests/UNITTESTS/ble_template) as a starting point.
+
+It contains a cmake file with all the required paths and mock objects compiled. The test file itself contains all the headers and setup required to use the mock backed BLE instance. Just copy and add your tests.
+
 ## BLE class reference
 
 [![View code](https://www.mbed.com/embed/?type=library)](https://os.mbed.com/docs/mbed-os/development/mbed-os-api-doxy/classble_1_1_b_l_e.html)
