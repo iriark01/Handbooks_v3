@@ -48,8 +48,8 @@ This is an example on how to define UART names in PinNames.h:
     typedef enum {
     ...
     // Px_xx relates to the processor pin connected to the UART
-    USBTX       = Px_xx,
-    USBRX       = Px_xx,
+    CONSOLE_TX = Px_xx,
+    CONSOLE_RX = Px_xx,
     ...
     } PinName;
 
