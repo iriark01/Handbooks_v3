@@ -1,0 +1,18 @@
+@startuml
+class mbed::DigitalOut implements mbed::interface::DigitalOut
+
+abstract mbed::interface::DigitalOut {
+   {abstract} void write(int value)
+   {abstract} int read()
+   {abstract} int is_connected()
+   DigitalOut &operator=(int value)
+   DigitalOut &operator=(DigitalOut &rhs)
+   operator int()
+}
+
+class mbed::DigitalOut {
+   void write(int value)
+   int read()
+   int is_connected()
+}
+@enduml
