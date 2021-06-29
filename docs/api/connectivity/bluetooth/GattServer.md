@@ -1,7 +1,5 @@
 # GattServer
 
-<span class="notes">**Note:** Some functions, variables or types have been deprecated. Please see the class reference linked below for details.</span>
-
 You can use Generic Attribute Profile (GATT) to discover services, characteristics and descriptors and to perform operations on them. The interaction happens between two peers, one of which is the client (which initiates interactions) and the other is the server (which responds). You can use Attribute Protocol (ATT) to implement this interaction.
 
 `GattServer` is a collection of GattServices. These services contain characteristics that a `GattClient` on the peer connected to the device may read or write. These characteristics may also emit updates to subscribed clients when their values change.
@@ -24,7 +22,9 @@ The Attribute Protocol Maximum Transmission Unit (`ATT_MTU`) is the maximum size
 
 ## Events
 
-You can register several event handlers with the GattServer that it will call to notify you of client (remote application connected to the server) and server activities:
+You can register your implementation of `GattServer::EventHandler` with the GattServer using
+`GattServer::setEventHandler()`. It will call your event handler methods to notify you of client (remote application
+connected to the server) and server activity:
 
 - `onDataSent`: Register an event handler with the GattServer that it will call to notify you when it sends a characteristic value update to a client.
 - `onDataWriten`: Register an event handler with the GattServer that it will call to notify you when a client has written an attribute of the server.

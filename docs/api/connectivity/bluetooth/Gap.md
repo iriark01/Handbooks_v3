@@ -1,7 +1,5 @@
 # GAP
 
-<span class="notes">**Note:** Some functions, variables or types have been deprecated. Please see the class reference linked below for details.</span>
-
 The Generic Access Profile is the layer of the stack that handles connectivity tasks. This includes link establishment and termination, advertising and scanning.
 
 Devices with data to publish can use GAP to advertise. They can include the data in the advertisement itself, inside the scan response, or leave a peer device to query it after the connection has been established.

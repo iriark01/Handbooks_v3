@@ -1,7 +1,5 @@
 # GattClient
 
-<span class="notes">**Note:** Some functions, variables or types have been deprecated. Please see the class reference linked below for details.</span>
-
 You can use Generic Attribute Profile (GATT) to discover services, characteristics and descriptors and to perform operations on them. The interaction happens between two peers, one of which is the client (which initiates interactions) and the other is the server (which responds). You can use Attribute Protocol (ATT) to implement this interaction. `GattClient` defines procedures required for interacting with a remote `GattServer`.
 
 ## Discovery procedures

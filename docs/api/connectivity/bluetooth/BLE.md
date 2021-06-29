@@ -1,76 +1,102 @@
-# BLE
+# BLE 
 
-<span class="notes">**Note:** Some functions, variables or types have been deprecated. Please see the class reference linked below for details.</span>
+Bluetooth low energy (BLE) is a low power wireless technology standard for building personal area networks. Typical
+applications of BLE are health care, fitness trackers, beacons, smart home, security, entertainment, proximity sensors,
+industrial and automotive.
 
-Bluetooth low energy (BLE) is a low power wireless technology standard for building personal area networks. Typical applications of BLE are health care, fitness trackers, beacons, smart home, security, entertainment, proximity sensors, industrial and automotive.
+Arm Mbed BLE is the Bluetooth Low Energy software solution for Mbed. Many Mbed
+[targets and components](https://os.mbed.com/platforms/?mbed-enabled=15&connectivity=3) support Mbed BLE. Developers can
+use it to create new BLE enabled applications.
 
-Arm Mbed BLE, also called `BLE_API`, is the Bluetooth Low Energy software solution for Mbed. Many Mbed [targets and components](https://os.mbed.com/platforms/?mbed-enabled=15&connectivity=3) support Mbed BLE. Developers can use it to create new BLE enabled applications.
+## BLE API
 
-Mbed’s `BLE_API` interfaces with the BLE controller on the board. It hides the BLE stack’s complexity behind C++ abstractions and is compatible with all BLE-enabled Mbed board. The Mbed OS `BLE_API` automatically configuring the clocks, timers and other hardware peripherals to work at their lowest power consumption.
+Mbed's BLE API is available through C++ classes. It hides the BLE stack’s complexity and is compatible with all
+BLE-enabled Mbed board. It automatically configures the clocks, timers and other hardware peripherals to work at their
+lowest power consumption.
 
-## `BLE_API`, bridges and stacks
+### BLE API headers
 
-<span class="images">![](../../../images/BLEDiagram.png)</span>
+BLE API is accessible through several header files:
 
-You can build a BLE application using Mbed OS, `BLE_API` and a controller-specific Bluetooth stack together with some bridge software to adapt it to `BLE_API`:
+- [BLE.h](https://github.com/ARMmbed/mbed-os/blob/master/connectivity/FEATURE_BLE/include/ble/BLE.h) - acquire the BLE
+  instance, perform initialisation
+- [Gap.h](https://github.com/ARMmbed/mbed-os/blob/master/connectivity/FEATURE_BLE/include/ble/Gap.h) - advertising,
+  scanning, connecting
+- [GattClient.h](https://github.com/ARMmbed/mbed-os/blob/master/connectivity/FEATURE_BLE/include/ble/GattClient.h) -
+  GATT operations as client
+- [GattServer.h](https://github.com/ARMmbed/mbed-os/blob/master/connectivity/FEATURE_BLE/include/ble/GattServer.h) -
+  GATT operations as server
+- [SecurityManager.h](https://github.com/ARMmbed/mbed-os/blob/master/connectivity/FEATURE_BLE/include/ble/SecurityManager.h) -
+  authentication, keys, encryption
 
-- `BLE_API` as described above.
-- The bridge software is specific to each vendor’s board. It provides the instantiations for the interfaces `BLE_API` offers and helps drive the underlying controller and Bluetooth stack.
-- The Bluetooth stack implements the Bluetooth protocol and is specific to the controller, so a vendor using different controllers may provide different stacks.
+Specific documentation for each component is available inside each of these headers.
 
-## Inside `BLE_API`
+### Thread safety
 
-<span class="images">![](../../../images/Inside_API.png)</span>
+BLE implementation does not provide thread safety and assumes single thread execution. Event processing and API calls
+must be dispatched from the same thread.
 
-`BLE_API` offers building blocks to help construct applications. These fall into two broad categories:
+### Asynchronous calls
 
-1. Interfaces under **`ble/`** to express BLE constructs, such as GAP, GATT, services and characteristics.
+Many API calls are asynchronous and provide results through callbacks. These are implemented as events. To receive these
+events register an EventHandler that is specific to that component. For example to receive events from Gap, use
+`Gap::setEventHandler()` passing in your implementation that inherits from `Gap::EventHandler`. Your class will override
+the events (methods) you are interested in, the others will inherit the do-nothing implementations provided by the parent.
 
-1. Classes under `ble/services` to offer reference implementations for many of the commonly used GATT profiles. The code under 'services/' isn't essential, but it’s a useful starting point for prototyping. We continue to implement the standard GATT profiles.
+### Instancing a BLE device
 
-## The BLEDevice class and header
+All BLE operations are executed on an instance of BLE accessible through a function in the header `ble/BLE.h`.
 
-The entry point of Mbed's `BLE_API` is the BLE class accessible using the header `ble/BLE.h`. This class allows you to obtain a BLE object that includes the basic attributes of a spec-compatible BLE device and can work with any BLE radio:
-
-```c TODO
+```c
 #include "ble/BLE.h"
 
 BLE& mydevicename = BLE::Instance();
 ```
 
-The class's member functions can be divided by purpose:
+### BLE stacks
 
-1. Basic BLE operations, such as initializing the controller.
+To build and application using BLE  you will be using the Mbed OS BLE API and an implementation of the BLE stack
+appropriate for your board. The implementation is split into Host and Controller part. They can both run on the same
+chip or two separate ones. They will be both communicating through HCI (Host Controller Interface, a well defined
+protocol that is part of the Bluetooth specification). Read more about the HCI interface in Mbed OS
+[here](https://github.com/ARMmbed/mbed-os/blob/master/connectivity/FEATURE_BLE/include/ble/driver/doc/HCIAbstraction.md).
 
-1. Accessor to Bluetooth Modules that manage GAP, GATT or the security.
+Currently, all implementation use the Cordio stack for the Host part. The Controller implementation may be either also
+Cordio or any other vendor supplier one. Each board will have a driver that implements the communication channel
+between the Host and its implementation of the controller. To add support for a new board please refer to the
+[BLE porting guide](https://github.com/ARMmbed/mbed-os/blob/master/connectivity/FEATURE_BLE/include/ble/driver/doc/PortingGuide.md).
 
-## Usage
+## Debugging
 
-1. Set up advertising and connection modes.
-1. Assign UUIDs to the service and its characteristic.
-1. Create an input characteristic.
-1. Construct a service class and add it to the BLE stack.
-1. Push notifications when the characteristic's value changes.
+To learn about debugging with mbed go to:
+
+[Debugging Mbed OS](../debug-test/index.html)
+
+However, keep in mind when trying to debug connectivity issues that if more than one device is involved it might
+not be possible to stop your target without the communication breaking down. A less invasive way to help you understand
+what is happening might be to use tracing.
 
 ## Tracing
 
 To debug issues (or to understand what the stack is doing) it may be helpful to enable tracing.
 
-Traces can be turned on by overriding configuration options in you mbed_app.json:
+To enable traces override configuration options in you mbed_app.json:
 
 ```
     "target_overrides": {
         "*": {
             "mbed-trace.enable": true,
             "mbed-trace.max-level": "TRACE_LEVEL_DEBUG",
-            "cordio.trace-hci-packets": true,
-            "cordio.trace-cordio-wsf-traces": true,
+            "cordio.trace-hci-packets": false,
+            "cordio.trace-cordio-wsf-traces": false,
             "ble.trace-human-readable-enums": true
         }
     }
 ```
 
-and compiling your application with `--profile debug`. Please note that with all options enabled your application may become too big - disable some options or lower the `mbed-trace.max-level`. Detailed documentation is available in the tracing [README.md](https://github.com/ARMmbed/mbed-os/blob/master/platform/mbed-trace/README.md).
+Compile your application with `--profile debug`. Please note that with all options enabled your application may become
+too big - disable some options or lower the `mbed-trace.max-level`. Detailed documentation is available in the tracing
+[README.md](https://github.com/ARMmbed/mbed-os/blob/master/platform/mbed-trace/README.md).
 
 All BLE modules contain tracing, each of the modules prefixed with a unique tag:
 - `BLE ` - general BLE traces  
@@ -86,11 +112,16 @@ All BLE modules contain tracing, each of the modules prefixed with a unique tag:
 
 Any contributions to BLE should include appropriate tracing code.
 
+## BLE examples
+
+We have placed all of our BLE examples in a single GitHub repository:
+- [GitHub repository](https://github.com/ARMmbed/mbed-os-example-ble)
+
+Use the release version matching the mbed-os version you plan to use.
+
+Development happens on the `development` branch. If you report an issue or open a PR, please check the version on the
+`development` branch and target it for any proposed changes.
+
 ## BLE class reference
 
 [![View code](https://www.mbed.com/embed/?type=library)](https://os.mbed.com/docs/mbed-os/development/mbed-os-api-doxy/classble_1_1_b_l_e.html)
-
-## Related content
-
-- Mbed Enabled [targets and components](https://os.mbed.com/platforms/?mbed-enabled=15&connectivity=3) that support BLE.
-- [BLE example on GitHub](https://github.com/ARMmbed/mbed-os-example-ble/).

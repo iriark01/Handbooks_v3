@@ -814,9 +814,7 @@
                         },
                         {
                             "title": "Bluetooth APIs",
-                            "sources": [{
-                                    "path": "docs/api/connectivity/bluetooth/BatteryService.md"
-                                },
+                            "sources": [
                                 {
                                     "path": "docs/api/connectivity/bluetooth/BLE.md"
                                 },
@@ -824,16 +822,16 @@
                                     "path": "docs/api/connectivity/bluetooth/Gap.md"
                                 },
                                 {
-                                    "path": "docs/api/connectivity/bluetooth/GattClient.md"
-                                },
-                                {
                                     "path": "docs/api/connectivity/bluetooth/GattServer.md"
                                 },
                                 {
-                                    "path": "docs/api/connectivity/bluetooth/HeartRateService.md"
+                                    "path": "docs/api/connectivity/bluetooth/SecurityManager.md"
                                 },
                                 {
-                                    "path": "docs/api/connectivity/bluetooth/SecurityManager.md"
+                                    "path": "docs/api/connectivity/bluetooth/BLE_services.md"
+                                },
+                                {
+                                    "path": "docs/api/connectivity/bluetooth/GattClient.md"
                                 }
                             ]
                         },
