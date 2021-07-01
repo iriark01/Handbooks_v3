@@ -279,7 +279,7 @@ With Arm Mbed TLS, a comprehensive SSL/TLS solution, you can include cryptograph
 
 <h2 id="deprecated-apis">Deprecated APIs: moving from Mbed OS 5 to 6</h2>
 
-If you're moving your program from Mbed OS 5 to 6, you will need to replace deprecated APIs. The table lists classes that have been completely removed. Functions and methods that have been removed from other classes are listed in each class's Doxgen, and [summarised here](../mbed-os-api-doxy/deprecated.html).
+If you're moving your program from Mbed OS 5 to 6, you will need to replace deprecated APIs. The table lists classes that have been completely removed. Functions and methods that have been removed from other classes are listed in each class's Doxygen ouput, and [summarised here](../mbed-os-api-doxy/deprecated.html).
 
 | Deprecated API | Replaced by |
 | - | - |

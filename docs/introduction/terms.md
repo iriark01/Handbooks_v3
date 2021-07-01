@@ -139,6 +139,8 @@
 
 **RTOS** - [Real-Time Operating System](../apis/scheduling-concepts.html).
 
+**RTX** - [Keil RTX](https://www2.keil.com/mdk5/cmsis/rtx) is a royalty-free, deterministic Real-Time Operating System designed for Arm Cortex-M devices.
+
 ## S
 
 **Serial** - A protocol used in data transmission for the transfer of individual bits of information. The Serial API has been deprecated; please see the BufferedSerial and UnbufferedSerial APIs.

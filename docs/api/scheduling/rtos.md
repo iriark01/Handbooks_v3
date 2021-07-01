@@ -8,7 +8,7 @@ The code of the Mbed RTOS can be found in the [`mbed-os`](https://github.com/ARM
 
 Memory for the RTOS primitives is allocated as part of the C++ objects on the stack unless you explicitly use dynamic allocation, in which case it is placed on the heap. Exceptions to this rule are user's thread stacks, which by default are allocated on the heap. You can provide your own memory in the construction if you'd rather not use dynamic memory in your system. For details, please see the [Thread](thread.html) class documentation.
 
-<span class="notes">**Note:** Mbed OS overrides the RTX default memory pool approach.</span>
+<span class="notes">**Note:** Mbed OS overrides the Keil RTX default memory pool approach.</span>
 
 ## RTOS Ticker
 
