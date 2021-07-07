@@ -1125,6 +1125,12 @@
                     ]
                 },
                 {
+                    "title": "Docker",
+                    "sources": [{
+                        "path": "docs/tools/docker/docker.md"
+                    }]
+                },
+                {
                     "title": "Third-party build tools",
                     "sources": [{
                             "path": "docs/tools/toolchains/export_to_third_party.md"
