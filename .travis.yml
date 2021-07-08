@@ -66,6 +66,16 @@ jobs:
                 fi
             fi
 
+      env:
+        - NAME=prohibited-word-check
+      script:
+        # Run scripts to search for added prohibited words
+        - python check_tools/validate.py -c -i check_tools/prohibited.txt -f . &> check_tools/pr_black_list.log
+        - git remote add upstream https://github.com/armmbed/mbed-os-5-docs.git
+        - git fetch --depth=1 upstream development
+        - git checkout development
+        - python check_tools/validate.py -c -i check_tools/prohibited.txt -f . &> check_tools/head_black_list.log
+        - python check_tools/smartdiff.py
 # Manage statuses
 before_install:
   - |
@@ -103,4 +113,3 @@ after_success:
 # Job control
 stages:
     - name: test
-
