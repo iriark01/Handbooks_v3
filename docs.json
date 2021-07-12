@@ -834,6 +834,9 @@
                                 },
                                 {
                                     "path": "docs/api/connectivity/bluetooth/SecurityManager.md"
+                                },
+                                {
+                                    "path": "docs/api/connectivity/bluetooth/Optimising_for_performance.md"
                                 }
                             ]
                         },
